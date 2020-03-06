@@ -1,0 +1,832 @@
+#!/bin/sh 
+##############################################################################
+# create core data (ccd) generates all the DIMACS core test files 	     #
+# for max-flow problem in the current directory.			     #
+#			 						     #
+# ccd $1 			 					     #
+#			 						     #
+#  n=2^($1),  is the size of the input which must be a power of two.	     #
+#									     #
+#	       								     #
+##############################################################################
+
+echo "The index $2 is started to run for x=$1 and nodes approximately eaqual to: n=`echo "2^($1)"| bc`"
+
+if [ -z "$1" ]
+then
+	echo "Usage: ccd <number>  " 
+	echo "       if number of nodes is n=2^x, the input number is x"
+	exit 1
+fi
+
+# Set the following variable to the location of the generator directory
+# in the dimacs tree. It assumes the programs are all in their
+# respective subpdirectories under the directory netflow/generators/network.
+GENDIR=/data/cephfs/punim0836/C/netflow/generators/network
+
+
+#seed= $RANDOM
+
+#******************************************************************************
+# Acyclic Dense NETWORK family 
+#-----------------------------
+# The acyclic dense network family with parame ter k has n = 2k nodes and n(n + l)/2 arcs.
+# usage: ac <num_nodes> <seed>
+#Different benchmarks will be generated having different capacities: 1k, 10k, 100k, 1m, 10m
+#******************************************************************************
+
+if [ $1 -le 15 ]
+then
+
+# size of the network 
+n=`echo "2^($1)"| bc`
+            
+#AC_1k
+###
+
+#   if [ -f $GENDIR/ccd/ac_benchmarks_1k/ac_"$n"_"$2".txt ];
+#    then
+#                echo "ac_"$n"_"$2".txt exist."
+#    else                
+#		$GENDIR/ac/ac_1k $n $RANDOM > ac_"$n"_"$2".txt
+#                mv ac_"$n"_"$2".txt $GENDIR/ccd/ac_benchmarks_1k
+#                echo "ac_"$n"_"$2".txt done"
+#    fi
+
+
+#AC_10k
+###
+
+#   if [ -f $GENDIR/ccd/ac_benchmarks_10k/ac_"$n"_"$2".txt ];
+#    then
+#                echo "ac_"$n"_"$2".txt exist."
+#    else                
+#		$GENDIR/ac/ac_10k $n $RANDOM > ac_"$n"_"$2".txt
+#                mv ac_"$n"_"$2".txt $GENDIR/ccd/ac_benchmarks_10k
+#                echo "ac_"$n"_"$2".txt done"
+#    fi
+
+
+
+#AC_100k
+###
+
+   if [ -f $GENDIR/ccd/ac_benchmarks_100k/ac_"$n"_"$2".txt ];
+    then
+                echo "ac_"$n"_"$2".txt exist."
+    else                
+		$GENDIR/ac/ac_100k $n $RANDOM > ac_"$n"_"$2".txt
+                mv ac_"$n"_"$2".txt $GENDIR/ccd/ac_benchmarks_100k
+                echo "ac_"$n"_"$2".txt done"
+    fi
+
+
+#AC_1m
+###
+
+   if [ -f $GENDIR/ccd/ac_benchmarks/ac_"$n"_"$2".txt ];
+    then
+                echo "ac_"$n"_"$2".txt exist."
+    else                
+		$GENDIR/ac/ac $n $RANDOM > ac_"$n"_"$2".txt
+                mv ac_"$n"_"$2".txt $GENDIR/ccd/ac_benchmarks
+                echo "ac_"$n"_"$2".txt done"
+    fi
+
+
+#AC_10m
+###
+
+   if [ -f $GENDIR/ccd/ac_benchmarks_10m/ac_"$n"_"$2".txt ];
+    then
+                echo "ac_"$n"_"$2".txt exist."
+    else                
+		$GENDIR/ac/ac_10m $n $RANDOM > ac_"$n"_"$2".txt
+                mv ac_"$n"_"$2".txt $GENDIR/ccd/ac_benchmarks_10m
+                echo "ac_"$n"_"$2".txt done"
+    fi
+
+fi   #End of if condition [ $1 -le 16 ]
+
+
+#******************************************************************************
+# A hard set of instances for push-relabel and Dinic's algorithms. 
+#Different benchmarks will be generated having different capacities: 1k, 10k, 100k, 1m, 10m
+#******************************************************************************
+
+if [ $2 -eq 1 ]
+then
+
+# size of the network
+rem=`echo "(2^($1)-6)%4"| bc`
+ 
+k=`echo "(2^($1)-6-rem)/4"| bc`
+n=`echo "4*($k)+6"| bc`
+
+
+#AK_1k
+######
+
+    if [ -f $GENDIR/ccd/ak_benchmarks_1k/ak_"$n".txt ];
+    then
+                echo "ak_"$n".txt exist."
+    else 
+                $GENDIR/ak/ak_1k $k > ak_"$n".txt
+                mv ak_"$n".txt $GENDIR/ccd/ak_benchmarks_1k
+		echo "ak_"$n".txt done"
+    fi
+
+
+#AK_10k
+######
+
+    if [ -f $GENDIR/ccd/ak_benchmarks_10k/ak_"$n".txt ];
+    then
+                echo "ak_"$n".txt exist."
+    else 
+                $GENDIR/ak/ak_10k $k > ak_"$n".txt
+                mv ak_"$n".txt $GENDIR/ccd/ak_benchmarks_10k
+		echo "ak_"$n".txt done"
+    fi
+
+
+#AK_100k
+######
+
+    if [ -f $GENDIR/ccd/ak_benchmarks_100k/ak_"$n".txt ];
+    then
+                echo "ak_"$n".txt exist."
+    else 
+                $GENDIR/ak/ak_100k $k > ak_"$n".txt
+                mv ak_"$n".txt $GENDIR/ccd/ak_benchmarks_100k
+		echo "ak_"$n".txt done"
+    fi
+
+
+#AK_1m
+######
+    if [ -f $GENDIR/ccd/ak_benchmarks/ak_"$n".txt ];
+    then
+                echo "ak_"$n".txt exist."
+    else 
+                $GENDIR/ak/ak $k > ak_"$n".txt
+                mv ak_"$n".txt $GENDIR/ccd/ak_benchmarks
+		echo "ak_"$n".txt done"
+    fi
+
+
+
+#AK_10m
+######
+
+    if [ -f $GENDIR/ccd/ak_benchmarks_10m/ak_"$n".txt ];
+    then
+                echo "ak_"$n".txt exist."
+    else 
+                $GENDIR/ak/ak_10m $k > ak_"$n".txt
+                mv ak_"$n".txt $GENDIR/ccd/ak_benchmarks_10m
+		echo "ak_"$n".txt done"
+    fi
+fi
+
+
+#******************************************************************************
+# TRANSIT GRID NETWORK GENERATOR
+#------------------------------- 
+#All the networks have capacities in the ranges [0..1k, 10k, 100k] 
+#******************************************************************************
+
+if [ $1 -le 26 ]
+then
+
+# size of the network 
+n=`echo "2^($1)"| bc`
+l=`echo "$n+2"| bc`
+
+#TG_1k
+########
+
+    if [ -f $GENDIR/ccd/Transit_Grid_benchmarks_1k/Transit_Grid_"$l"_"$2".txt ];
+    then
+                echo "Transit_Grid_"$l"_"$2".txt exist."
+    else 
+
+		$GENDIR/tg/tg $n 1000 $RANDOM > Transit_Grid_"$l"_"$2".txt
+		mv Transit_Grid_"$l"_"$2".txt $GENDIR/ccd/Transit_Grid_benchmarks_1k
+		echo "Transit_Grid_"$l"_"$2".txt done"
+    fi
+
+#TG_10k
+########
+
+    if [ -f $GENDIR/ccd/Transit_Grid_benchmarks/Transit_Grid_"$l"_"$2".txt ];
+    then
+                echo "Transit_Grid_"$l"_"$2".txt exist."
+    else 
+
+		$GENDIR/tg/tg $n 10000 $RANDOM > Transit_Grid_"$l"_"$2".txt
+		mv Transit_Grid_"$l"_"$2".txt $GENDIR/ccd/Transit_Grid_benchmarks
+		echo "Transit_Grid_"$l"_"$2".txt done"
+    fi
+
+#TG_100k
+########
+
+    if [ -f $GENDIR/ccd/Transit_Grid_benchmarks_100k/Transit_Grid_"$l"_"$2".txt ];
+    then
+                echo "Transit_Grid_"$l"_"$2".txt exist."
+    else 
+
+		$GENDIR/tg/tg $n 100000 $RANDOM > Transit_Grid_"$l"_"$2".txt
+		mv Transit_Grid_"$l"_"$2".txt $GENDIR/ccd/Transit_Grid_benchmarks_100k
+		echo "Transit_Grid_"$l"_"$2".txt done"
+    fi
+
+fi  # End of condition if [ $1 -le 26 ]
+
+
+#******************************************************************************
+# NETWORK-WIDTH family
+# -------------------
+# All the networks have capacities in the range [0..1k, 10k, 100k]
+# 
+#******************************************************************************
+
+# size of the network 
+n=`echo "2^($1)"| bc`
+k=`echo "$n+2"| bc`;
+
+
+if [ $1 -le 23 ]
+then
+
+# n=2^x; arg1=2^(x-6) 
+arg1=`echo "2^($1-6)" | bc`
+
+
+#Washington_RLG_Wide_1k
+########################
+    if [ -f $GENDIR/ccd/Washington_RLG_Wide_benchmarks_1k/Washington_RLG_Wide_"$k"_"$2".txt ];
+    then
+                echo "Washington_RLG_Wide_"$k"_"$2".txt exist."
+    else 
+
+
+		$GENDIR/wash/wash $RANDOM 2 $arg1 64 1000 > Washington_RLG_Wide_"$k"_"$2".txt
+		mv Washington_RLG_Wide_"$k"_"$2".txt $GENDIR/ccd/Washington_RLG_Wide_benchmarks_1k
+		echo "Washington_RLG_Wide_"$k"_"$2".txt done"
+    fi
+
+
+#Washington_RLG_Wide_10k
+########################
+    if [ -f $GENDIR/ccd/Washington_RLG_Wide_benchmarks/Washington_RLG_Wide_"$k"_"$2".txt ];
+    then
+                echo "Washington_RLG_Wide_"$k"_"$2".txt exist."
+    else 
+
+
+		$GENDIR/wash/wash $RANDOM 2 $arg1 64 10000 > Washington_RLG_Wide_"$k"_"$2".txt
+		mv Washington_RLG_Wide_"$k"_"$2".txt $GENDIR/ccd/Washington_RLG_Wide_benchmarks
+		echo "Washington_RLG_Wide_"$k"_"$2".txt done"
+    fi
+
+
+#Washington_RLG_Wide_100k
+########################
+    if [ -f $GENDIR/ccd/Washington_RLG_Wide_benchmarks_100k/Washington_RLG_Wide_"$k"_"$2".txt ];
+    then
+                echo "Washington_RLG_Wide_"$k"_"$2".txt exist."
+    else 
+
+
+		$GENDIR/wash/wash $RANDOM 2 $arg1 64 100000 > Washington_RLG_Wide_"$k"_"$2".txt
+		mv Washington_RLG_Wide_"$k"_"$2".txt $GENDIR/ccd/Washington_RLG_Wide_benchmarks_100k
+		echo "Washington_RLG_Wide_"$k"_"$2".txt done"
+    fi
+
+
+
+###########################################################################################################
+
+
+# n=2^x; arg1=2^(x-6) 
+
+
+#Washington_RLG_Long_1k
+########################
+
+    if [ -f $GENDIR/ccd/Washington_RLG_Long_benchmarks_1k/Washington_RLG_Long_"$k"_"$2".txt ];
+    then
+                echo "Washington_RLG_Long_"$k"_"$2".txt exist."
+    else
+		$GENDIR/wash/wash $RANDOM 2 64 $arg1 1000 > Washington_RLG_Long_"$k"_"$2".txt
+		mv Washington_RLG_Long_"$k"_"$2".txt $GENDIR/ccd/Washington_RLG_Long_benchmarks_1k
+		echo "Washington_RLG_Long_"$k"_"$2".txt done"
+
+    fi
+
+
+
+#Washington_RLG_Long_10k
+########################
+
+    if [ -f $GENDIR/ccd/Washington_RLG_Long_benchmarks/Washington_RLG_Long_"$k"_"$2".txt ];
+    then
+                echo "Washington_RLG_Long_"$k"_"$2".txt exist."
+    else
+		$GENDIR/wash/wash $RANDOM 2 64 $arg1 10000 > Washington_RLG_Long_"$k"_"$2".txt
+		mv Washington_RLG_Long_"$k"_"$2".txt $GENDIR/ccd/Washington_RLG_Long_benchmarks
+		echo "Washington_RLG_Long_"$k"_"$2".txt done"
+
+    fi
+
+
+#Washington_RLG_Long_100k
+########################
+
+    if [ -f $GENDIR/ccd/Washington_RLG_Long_benchmarks_100k/Washington_RLG_Long_"$k"_"$2".txt ];
+    then
+                echo "Washington_RLG_Long_"$k"_"$2".txt exist."
+    else
+		$GENDIR/wash/wash $RANDOM 2 64 $arg1 100000 > Washington_RLG_Long_"$k"_"$2".txt
+		mv Washington_RLG_Long_"$k"_"$2".txt $GENDIR/ccd/Washington_RLG_Long_benchmarks_100k
+		echo "Washington_RLG_Long_"$k"_"$2".txt done"
+
+    fi
+
+
+fi #End of condition if [ $1 -le 23 ]
+
+####################################################################################################
+
+
+if [ $1 -le 24 ]
+then
+
+rem=`echo "$1 % 4" | bc`
+case "$rem" in
+0)
+    a=`echo "2^($1/4)"|bc`;
+    b=`echo "2^(2*($1/4))"|bc`;
+# size of the network 
+n=`echo "2^($1)"| bc`;;
+*)
+    y=`echo "($1+4-$rem)/4"|bc`;
+    z=`echo "4*$y"|bc`
+    echo "The input argument $1 is not a multiple of 4; instead, $z is used";
+    a=`echo "2^($y)"|bc`;
+    b=`echo "2^(2*$y)"|bc`;
+    # size of the network 
+    n=`echo "2^($z)"| bc`;;
+esac
+
+
+
+##########################################################
+# The cpacities of Genrmf_Long_ik belong to the [1, 64*i]#
+##########################################################
+
+
+#Genrmf_Long_1k
+################
+
+    if [ -f $GENDIR/ccd/Genrmf_Long_benchmarks_1k/Genrmf_Long_"$n"_"$2".txt ];
+    then
+                echo "Genrmf_Long_"$n"_"$2".txt exist."
+    else
+
+		$GENDIR/genrmf/genrmf -out Genrmf_Long_"$n"_"$2".txt -a $a -b $b -c1 1 -c2 1000 
+		mv Genrmf_Long_"$n"_"$2".txt  $GENDIR/ccd/Genrmf_Long_benchmarks_1k
+		echo "Genrmf_Long_"$n"_"$2".txt done"
+
+    fi
+
+#Genrmf_Long_10k
+################
+
+    if [ -f $GENDIR/ccd/Genrmf_Long_benchmarks/Genrmf_Long_"$n"_"$2".txt ];
+    then
+                echo "Genrmf_Long_"$n"_"$2".txt exist."
+    else
+
+		$GENDIR/genrmf/genrmf -out Genrmf_Long_"$n"_"$2".txt -a $a -b $b -c1 1 -c2 10000 
+		mv Genrmf_Long_"$n"_"$2".txt  $GENDIR/ccd/Genrmf_Long_benchmarks
+		echo "Genrmf_Long_"$n"_"$2".txt done"
+
+    fi
+
+#Genrmf_Long_100k
+################
+
+    if [ -f $GENDIR/ccd/Genrmf_Long_benchmarks_100k/Genrmf_Long_"$n"_"$2".txt ];
+    then
+                echo "Genrmf_Long_"$n"_"$2".txt exist."
+    else
+
+		$GENDIR/genrmf/genrmf -out Genrmf_Long_"$n"_"$2".txt -a $a -b $b -c1 1 -c2 100000 
+		mv Genrmf_Long_"$n"_"$2".txt  $GENDIR/ccd/Genrmf_Long_benchmarks_100k
+		echo "Genrmf_Long_"$n"_"$2".txt done"
+
+    fi
+
+fi #End of condition if [ $1 -le 24 ]
+
+########################################################################################################
+
+if [ $1 -le 25 ]
+then
+
+rem=`echo "$1 % 5" | bc`
+case "$rem" in
+0)
+    
+   a=`echo "2^(2*($1/5))"|bc`;
+   b=`echo "2^($1/5)"|bc`;
+
+    # size of the network 
+    n=`echo "2^($1)"| bc`;;
+
+*)
+    y=`echo "($1+5-$rem)/5"|bc`;
+    z=`echo "5*$y"|bc`
+    echo "The input argument $1 is not a multiple of 5; instead, $z is used";
+    a=`echo "2^(2*$y)"|bc`;
+    b=`echo "2^($y)"|bc`;
+    # size of the network 
+    n=`echo "2^($z)"| bc`;;
+esac
+
+
+##########################################################
+# The cpacities of Genrmf_Long_ik belong to the [1, 256*i]#
+##########################################################
+
+
+#Genrmf_Wide_1k
+################
+
+    if [ -f $GENDIR/ccd/Genrmf_Wide_benchmarks_1k/Genrmf_Wide_"$n"_"$2".txt ];
+    then
+                echo "Genrmf_Wide_"$n"_"$2".txt exist."
+    else
+
+		$GENDIR/genrmf/genrmf -out Genrmf_Wide_"$n"_"$2".txt -a $a -b $b -c1 1 -c2 1000
+		mv Genrmf_Wide_"$n"_"$2".txt  $GENDIR/ccd/Genrmf_Wide_benchmarks_1k
+		echo "Genrmf_Wide_"$n"_"$2".txt done"
+    fi
+
+
+#Genrmf_Wide_10k
+################
+
+    if [ -f $GENDIR/ccd/Genrmf_Wide_benchmarks/Genrmf_Wide_"$n"_"$2".txt ];
+    then
+                echo "Genrmf_Wide_"$n"_"$2".txt exist."
+    else
+
+		$GENDIR/genrmf/genrmf -out Genrmf_Wide_"$n"_"$2".txt -a $a -b $b -c1 1 -c2 10000
+		mv Genrmf_Wide_"$n"_"$2".txt  $GENDIR/ccd/Genrmf_Wide_benchmarks
+		echo "Genrmf_Wide_"$n"_"$2".txt done"
+    fi
+
+#Genrmf_Wide_100k
+################
+
+    if [ -f $GENDIR/ccd/Genrmf_Wide_benchmarks_100k/Genrmf_Wide_"$n"_"$2".txt ];
+    then
+                echo "Genrmf_Wide_"$n"_"$2".txt exist."
+    else
+
+		$GENDIR/genrmf/genrmf -out Genrmf_Wide_"$n"_"$2".txt -a $a -b $b -c1 1 -c2 100000
+		mv Genrmf_Wide_"$n"_"$2".txt  $GENDIR/ccd/Genrmf_Wide_benchmarks_100k
+		echo "Genrmf_Wide_"$n"_"$2".txt done"
+    fi
+
+
+
+echo
+echo "NETWORK WIDTH Family done"
+echo
+
+fi #End of condition if [ $1 -le 25 ]
+#******************************************************************************
+
+
+
+#******************************************************************************
+# NETWORK-DENSITY family
+# -------------------
+# All the networks have capacities in the range [0..100k, 1m, 10m]
+# 
+
+# size of the network 
+n=`echo "2^($1)"| bc`
+l=`echo "$n+2"| bc`
+
+###########################################
+
+arg1=`echo "2^($1/2)" | bc `
+
+
+if [ $1 -le 22 ]
+then
+
+#Washington_Square_Sparse_100k
+##############################
+
+
+    if [ -f $GENDIR/ccd/Washington_Square_Sparse_benchmarks_100k/Washington_Square_Sparse_"$l"_"$2".txt ];
+    then
+                echo "Washington_Square_Sparse_"$l"_"$2".txt exist."
+    else
+
+		$GENDIR/wash/wash $RANDOM 5 $arg1 4 100000 > Washington_Square_Sparse_"$l"_"$2".txt
+		mv Washington_Square_Sparse_"$l"_"$2".txt  $GENDIR/ccd/Washington_Square_Sparse_benchmarks_100k
+		echo "Washington_Square_Sparse_"$l"_"$2".txt done"
+    fi
+
+#Washington_Square_Sparse_1m
+##############################
+
+
+    if [ -f $GENDIR/ccd/Washington_Square_Sparse_benchmarks/Washington_Square_Sparse_"$l"_"$2".txt ];
+    then
+                echo "Washington_Square_Sparse_"$l"_"$2".txt exist."
+    else
+
+		$GENDIR/wash/wash $RANDOM 5 $arg1 4 1000000 > Washington_Square_Sparse_"$l"_"$2".txt
+		mv Washington_Square_Sparse_"$l"_"$2".txt  $GENDIR/ccd/Washington_Square_Sparse_benchmarks
+		echo "Washington_Square_Sparse_"$l"_"$2".txt done"
+    fi
+
+#Washington_Square_Sparse_10m
+##############################
+
+
+    if [ -f $GENDIR/ccd/Washington_Square_Sparse_benchmarks_10m/Washington_Square_Sparse_"$l"_"$2".txt ];
+    then
+                echo "Washington_Square_Sparse_"$l"_"$2".txt exist."
+    else
+
+		$GENDIR/wash/wash $RANDOM 5 $arg1 4 10000000 > Washington_Square_Sparse_"$l"_"$2".txt
+		mv Washington_Square_Sparse_"$l"_"$2".txt  $GENDIR/ccd/Washington_Square_Sparse_benchmarks_10m
+		echo "Washington_Square_Sparse_"$l"_"$2".txt done"
+    fi
+
+fi #End of condition if [ $1 -le 22 ]
+
+############################################################################################################
+
+arg2=`echo "$arg1/4" | bc`
+
+if [ $1 -le 20 ]
+then
+
+#Washington_Square_Moderate_100k
+###############################
+
+    if [ -f $GENDIR/ccd/Washington_Square_Moderate_benchmarks_100k/Washington_Square_Moderate_"$l"_"$2".txt ];
+    then
+                echo "Washington_Square_Moderate_"$l"_"$2".txt exist."
+    else
+
+		$GENDIR/wash/wash $RANDOM 5 $arg1 $arg2 100000 > Washington_Square_Moderate_"$l"_"$2".txt
+		mv Washington_Square_Moderate_"$l"_"$2".txt  $GENDIR/ccd/Washington_Square_Moderate_benchmarks_100k
+		echo "Washington_Square_Moderate_"$l"_"$2".txt done"
+    fi
+
+#Washington_Square_Moderate_1m
+###############################
+
+    if [ -f $GENDIR/ccd/Washington_Square_Moderate_benchmarks/Washington_Square_Moderate_"$l"_"$2".txt ];
+    then
+                echo "Washington_Square_Moderate_"$l"_"$2".txt exist."
+    else
+
+		$GENDIR/wash/wash $RANDOM 5 $arg1 $arg2 1000000 > Washington_Square_Moderate_"$l"_"$2".txt
+		mv Washington_Square_Moderate_"$l"_"$2".txt  $GENDIR/ccd/Washington_Square_Moderate_benchmarks
+		echo "Washington_Square_Moderate_"$l"_"$2".txt done"
+    fi
+
+
+#Washington_Square_Moderate_10m
+###############################
+
+    if [ -f $GENDIR/ccd/Washington_Square_Moderate_benchmarks_10m/Washington_Square_Moderate_"$l"_"$2".txt ];
+    then
+                echo "Washington_Square_Moderate_"$l"_"$2".txt exist."
+    else
+
+		$GENDIR/wash/wash $RANDOM 5 $arg1 $arg2 10000 > Washington_Square_Moderate_"$l"_"$2".txt
+		mv Washington_Square_Moderate_"$l"_"$2".txt  $GENDIR/ccd/Washington_Square_Moderate_benchmarks_10m
+		echo "Washington_Square_Moderate_"$l"_"$2".txt done"
+    fi
+
+fi #End of condition if [ $1 -le 20 ]
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+arg1=`echo "2^($1-2)" | bc`
+
+
+if [ $1 -le 23 ]
+then
+
+#Washington_Line_Sparse
+###########################
+
+    if [ -f $GENDIR/ccd/Washington_Line_Sparse_benchmarks/Washington_Line_Sparse_"$l"_"$2".txt ];
+    then
+                echo "Washington_Line_Sparse_"$l"_"$2".txt exist."
+    else
+
+		$GENDIR/wash/wash $RANDOM 6 $arg1 4 4 > Washington_Line_Sparse_"$l"_"$2".txt
+		mv Washington_Line_Sparse_"$l"_"$2".txt  $GENDIR/ccd/Washington_Line_Sparse_benchmarks
+		echo "Washington_Line_Sparse_"$l"_"$2".txt done"
+    fi
+
+fi #End of condition if [ $1 -le 23 ]
+
+
+########################%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+arg3=`echo "2^($1/2-2)" | bc`
+
+
+if [ $1 -le 13 ]
+then
+
+#Washington_Line_Moderate
+#########################
+
+    if [ -f $GENDIR/ccd/Washington_Line_Moderate_benchmarks/Washington_Line_Moderate_"$l"_"$2".txt ];
+    then
+                echo "Washington_Line_Moderate_"$l"_"$2".txt exist."
+    else
+
+		$GENDIR/wash/wash $RANDOM 6 $arg1 4 $arg3 > Washington_Line_Moderate_"$l"_"$2".txt
+		mv Washington_Line_Moderate_"$l"_"$2".txt  $GENDIR/ccd/Washington_Line_Moderate_benchmarks
+		echo "Washington_Line_Moderate_"$l"_"$2".txt done"
+    fi
+
+fi #End of condition if [ $1 -le 13 ]
+
+#-----------------------------------------------------------------------------
+$GENDIR/waissi/ac-max  <<End >/dev/null
+y
+Acyclic-Dense.max
+$n
+
+
+
+f
+n
+1000000
+
+
+
+End
+#-----------------------------------------------------------------------------
+echo "Acyclic-Dense.max done"
+
+echo 
+echo "NETWORK  DENSITY Family done"
+echo
+#******************************************************************************
+
+
+
+#******************************************************************************
+# CAPACITY-SCALE family
+# -------------------
+# 
+
+#-----------------------------------------------------------------------------
+$GENDIR/waissi/tr2-max <<End >/dev/null
+y
+Transit2-Lo-Cap.max
+$n
+100
+
+
+End
+#-----------------------------------------------------------------------------
+echo "Transit2-Lo-Cap.max done"
+
+#-----------------------------------------------------------------------------
+$GENDIR/waissi/tr2-max <<End >/dev/null
+y
+Transit2-Hi-Cap.max
+$n
+100000000
+
+
+End
+#-----------------------------------------------------------------------------
+echo "Transit2-Hi-Cap.max done"
+
+# size of the network 
+n=`echo "2^($1)"| bc`
+l=`echo "$n+2"| bc`
+
+
+arg=`echo "2^($1/2)" | bc`
+
+
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+if [ $1 -le 22 ]
+then
+
+#Washington_RLG2_Lo_Cap_10
+###########################
+
+    if [ -f $GENDIR/ccd/Washington_RLG2_Lo_Cap_benchmarks_10/Washington_RLG2_Lo_Cap_"$l"_"$2".txt ];
+    then
+                echo "Washington_RLG2_Lo_Cap_"$l"_"$2".txt exist."
+    else
+
+		$GENDIR/wash/wash $RANDOM 3 $arg $arg 10 > Washington_RLG2_Lo_Cap_"$l"_"$2".txt
+		mv Washington_RLG2_Lo_Cap_"$l"_"$2".txt $GENDIR/ccd/Washington_RLG2_Lo_Cap_benchmarks_10
+		echo "Washington_RLG2_Lo_Cap_"$l"_"$2".txt done"
+    fi
+
+#Washington_RLG2_Lo_Cap_100
+###########################
+
+    if [ -f $GENDIR/ccd/Washington_RLG2_Lo_Cap_benchmarks/Washington_RLG2_Lo_Cap_"$l"_"$2".txt ];
+    then
+                echo "Washington_RLG2_Lo_Cap_"$l"_"$2".txt exist."
+    else
+
+		$GENDIR/wash/wash $RANDOM 3 $arg $arg 100 > Washington_RLG2_Lo_Cap_"$l"_"$2".txt
+		mv Washington_RLG2_Lo_Cap_"$l"_"$2".txt $GENDIR/ccd/Washington_RLG2_Lo_Cap_benchmarks
+		echo "Washington_RLG2_Lo_Cap_"$l"_"$2".txt done"
+    fi
+
+#Washington_RLG2_Lo_Cap_1k
+###########################
+
+    if [ -f $GENDIR/ccd/Washington_RLG2_Lo_Cap_benchmarks_1k/Washington_RLG2_Lo_Cap_"$l"_"$2".txt ];
+    then
+                echo "Washington_RLG2_Lo_Cap_"$l"_"$2".txt exist."
+    else
+
+		$GENDIR/wash/wash $RANDOM 3 $arg $arg 1000 > Washington_RLG2_Lo_Cap_"$l"_"$2".txt
+		mv Washington_RLG2_Lo_Cap_"$l"_"$2".txt $GENDIR/ccd/Washington_RLG2_Lo_Cap_benchmarks_1k
+		echo "Washington_RLG2_Lo_Cap_"$l"_"$2".txt done"
+    fi
+
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+#Washington_RLG2_Hi_Cap_10m
+###########################
+
+    if [ -f $GENDIR/ccd/Washington_RLG2_Hi_Cap_benchmarks_10m/Washington_RLG2_Hi_Cap_"$l"_"$2".txt ];
+    then
+                echo "Washington_RLG2_Hi_Cap_"$l"_"$2".txt exist."
+    else
+
+		$GENDIR/wash/wash $RANDOM 3 $arg $arg 10000000 > Washington_RLG2_Hi_Cap_"$l"_"$2".txt
+		mv Washington_RLG2_Hi_Cap_"$l"_"$2".txt $GENDIR/ccd/Washington_RLG2_Hi_Cap_benchmarks_10m
+		echo "Washington_RLG2_Hi_Cap_"$l"_"$2".txt done"
+    fi
+
+#Washington_RLG2_Hi_Cap_100m
+###########################
+
+    if [ -f $GENDIR/ccd/Washington_RLG2_Hi_Cap_benchmarks/Washington_RLG2_Hi_Cap_"$l"_"$2".txt ];
+    then
+                echo "Washington_RLG2_Hi_Cap_"$l"_"$2".txt exist."
+    else
+
+		$GENDIR/wash/wash $RANDOM 3 $arg $arg 100000000 > Washington_RLG2_Hi_Cap_"$l"_"$2".txt
+		mv Washington_RLG2_Hi_Cap_"$l"_"$2".txt $GENDIR/ccd/Washington_RLG2_Hi_Cap_benchmarks
+		echo "Washington_RLG2_Hi_Cap_"$l"_"$2".txt done"
+    fi
+
+#Washington_RLG2_Hi_Cap_1b
+###########################
+
+    if [ -f $GENDIR/ccd/Washington_RLG2_Hi_Cap_benchmarks_1b/Washington_RLG2_Hi_Cap_"$l"_"$2".txt ];
+    then
+                echo "Washington_RLG2_Hi_Cap_"$l"_"$2".txt exist."
+    else
+
+		$GENDIR/wash/wash $RANDOM 3 $arg $arg 1000000000 > Washington_RLG2_Hi_Cap_"$l"_"$2".txt
+		mv Washington_RLG2_Hi_Cap_"$l"_"$2".txt $GENDIR/ccd/Washington_RLG2_Hi_Cap_benchmarks_1b
+		echo "Washington_RLG2_Hi_Cap_"$l"_"$2".txt done"
+    fi
+
+fi #End of condition if [ $1 -le 22 ]
+
+echo
+echo "CAPACITY SCALE Family done"
+echo
+#******************************************************************************
+
+
+
