@@ -1,1 +1,5 @@
+# The AK generator was designed by Goldberg and Cherkassky (1997) as a hard set of instances 
+for push-relabel and Dinic's (1970) algorithms. 
 
+Given a parameter k, the program generates a unique network with 4k + 6 nodes and 6k + 7 arcs. 
+The instance does not depend on a random seed in that the graph, given the number of nodes, is unique.
