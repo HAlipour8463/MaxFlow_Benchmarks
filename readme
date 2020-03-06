@@ -1,0 +1,24 @@
+This directory contains programs that generate networks and graphs.
+Most are in the DIMACS format. For the others, format translators 
+are or will soon be available.  Generators suitable for multiple 
+problems are in this directory---problem-specific generators appear
+in subdirectories.  
+
+This Directory Contains:
+
+ac.c      : Generates a fully dense acyclic network in .max format. 
+             A C version of waissi/ac.pas.  Submitted by J. Setubal
+
+ccd/      : A directory containing a shell script for generating all 
+              maxflow instances for the DIMACS Core Experiments.  
+
+genrmf/   : A directory containing files for the RMFGEN network generator.
+             Networks are in .max format. 
+
+geomasn.a : Awk language converter from DIMACS .geom format to a bipartite
+            network in .asn format.  Read the file for more information. 
+
+tg.c       :  Generates at transportation network. A C version of 
+               waissi/tr.pas.  Contributed by J. Setubal.  
+
+washington/ : A directory containing code for several max-flow generators.  
