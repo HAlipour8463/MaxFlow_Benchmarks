@@ -9,6 +9,11 @@ This Directory Contains:
 ac.c      : Generates a fully dense acyclic network in .max format. 
              A C version of waissi/ac.pas.  Submitted by J. Setubal
 
+ak.c	  : The AK generator was designed by Goldberg and Cherkassky (1997) 
+	    as a hard set of instances for push-relabel and Dinic's (1970) algorithms. 
+	    Given a parameter k, the program generates a unique network with 4k + 6 nodes and 6k + 7 arcs. 
+	    The instance does not depend on a random seed in that the graph, given the number of nodes, is unique.
+
 ccd/      : A directory containing a shell script for generating all 
               maxflow instances for the DIMACS Core Experiments.  
 
@@ -18,7 +23,7 @@ genrmf/   : A directory containing files for the RMFGEN network generator.
 geomasn.a : Awk language converter from DIMACS .geom format to a bipartite
             network in .asn format.  Read the file for more information. 
 
-tg.c       :  Generates at transportation network. A C version of 
+tg.c       :  Generates transportation grid networks. A C version of 
                waissi/tr.pas.  Contributed by J. Setubal.  
 
 washington/ : A directory containing code for several max-flow generators.  
